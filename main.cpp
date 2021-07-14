@@ -26,12 +26,12 @@ public:
         length = 0;
     }
 
-    ~LinkedList() {
-        Node *p = head;
-        while (p != NULL) {
-            p = p->next;
+    ~LinkedList(){
+        Node*p=head;
+        while(p!=NULL){
+            p=p->next;
             delete head;
-            p = head;
+            head=p;
         }
     }
 
