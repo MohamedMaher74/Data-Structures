@@ -1,14 +1,5 @@
 #include<bits/stdc++.h>
 
-#define UnLimit() ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-#define fast_cin() std::ios_base::sync_with_stdio (0); cin . tie (NULL);cout . tie (NULL);
-#define read(arr, n) for(int i=0;i<n and cin>>arr[i];i++);
-#define print(arr, n) for(int i=0;i<n and cout<<arr[i];i++);
-#define cin_vec(vec) for(auto& i:vec) cin>>i
-#define cout_vec(vec) for(auto&i:vec) cout<<i<<" "; cout<<'\n';
-#define PI 3.14159
-#define ll long long
-
 using namespace std;
 
 template<class t>
@@ -136,6 +127,7 @@ public:
             }
             delete p;
             q->next = NULL;
+            tail=q;
         }
         length--;
     }
