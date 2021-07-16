@@ -1,0 +1,321 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class LinkedList {
+    struct Node {
+        int info;
+        Node *next;
+    };
+    Node *head;
+    Node *tail;
+    int length;
+public:
+    LinkedList() {
+        head = tail = NULL;
+        length = 0;
+    }
+
+    ~LinkedList() {
+        Node *p = head;
+        while (p != NULL) {
+            p = p->next;
+            delete head;
+            head = p;
+        }
+    }
+
+    bool IsEmpty() {
+        return length == 0;
+    }
+
+    void insertFirst(int data) {
+        Node *p = new Node;
+        p->info = data;
+        p->next = head;
+        if (IsEmpty()) {
+            head = tail = p;
+            p->next = NULL;
+        } else {
+            p->next = head;
+            head = p;
+        }
+        length++;
+    }
+
+    void insertLast(int data) {
+        Node *p = new Node;
+        p->info = data;
+        if (IsEmpty()) {
+            head = tail = p;
+            p->next = NULL;
+        } else {
+            tail->next = p;
+            p->next = NULL;
+            tail = p;
+        }
+        length++;
+    }
+
+    void insertAtPos(int pos, int data) {
+        if (pos < 0 or pos > length) {
+            cout << "Out of Ranges";
+        } else {
+            Node *p = new Node;
+            p->info = data;
+            if (pos == 0) {
+                insertFirst(data);
+            } else if (pos == length) {
+                insertLast(data);
+            } else {
+                Node *q = head;
+                for (int i = 1; i < pos; i++) {
+                    q = q->next;
+                }
+                p->next = q->next;
+                q->next = p;
+                length++;
+            }
+        }
+    }
+
+    void printList() {
+        Node *p = head;
+        while (p != NULL) {
+            cout << p->info << " ";
+            p = p->next;
+        }
+        cout << '\n';
+    }
+
+    int countList() {
+        Node *p = head;
+        int count = 0;
+        while (p != NULL) {
+            count++;
+            p = p->next;
+        }
+        cout << "Number of Nodes in List is : ";
+        return count;
+    }
+
+    void removeFist() {
+        if (IsEmpty()) {
+            cout << "Empty List";
+        } else if (length == 1) {
+            delete head;
+            head = tail = NULL;
+        } else {
+            Node *p = head;
+            head = head->next;
+            delete p;
+        }
+        length--;
+    }
+
+    void removeLast() {
+        if (IsEmpty()) {
+            cout << "Empty List";
+        } else if (length == 1) {
+            delete head;
+            head = tail = NULL;
+        } else {
+            Node *p = head, *q = head;
+            while (p->next != NULL) {
+                q = p;
+                p = p->next;
+            }
+            delete p;
+            q->next = NULL;
+            tail = q;
+        }
+        length--;
+    }
+
+    void removeAtPos(int pos) {
+        if (pos < 0 or pos > length) {
+            cout << "Out of range";
+        } else {
+            if (pos == 0) {
+                removeFist();
+            } else if (pos == length) {
+                removeLast();
+            } else {
+                Node *p = head->next, *q = head;
+                for (int i = 1; i < pos; i++) {
+                    p = p->next;
+                }
+                q->next = p->next;
+                delete p;
+                length--;
+            }
+        }
+    }
+
+    int FindNode(int data) {
+        int pos = 0;
+        Node *p = head;
+        while (p != NULL and p->info != data) {
+            pos++;
+            p = p->next;
+        }
+        if (p->info != data) pos++;
+        if (p->info != data and p->next == head) return cout << "Searched Node: Not Found ", data;
+        else cout << "Searched Node " << data << " is in position: ";
+        return pos;
+    }
+
+    void sortList() {
+        Node *p = head;
+        int i = 0, arr[length];
+        while (p != NULL) {
+            arr[i++] = p->info;
+            p = p->next;
+        }
+
+        sort(arr, arr + length);
+
+        p = head, i = 0;
+        while (p != NULL) {
+            p->info = arr[i++];
+            p = p->next;
+        }
+
+        cout << "List after sorting: ";
+        p = head, i = 0;
+        while (p != NULL) {
+            cout << p->info << " ";
+            p = p->next;
+        }
+        cout << '\n';
+    }
+
+    void reversedList() {
+        Node *p = head;
+        int i = 0, arr[length];
+        while (p != NULL) {
+            arr[i++] = p->info;
+            p = p->next;
+        }
+
+        i = 0, p = head;
+        while (p != NULL) {
+            p->info = arr[i++];
+            p = p->next;
+        }
+
+        cout << "List after reversing: ";
+        i = 0, p = head;
+        while (p != NULL) {
+            cout << p->info << " ";
+            p = p->next;
+        }
+        cout << '\n';
+    }
+
+    void Get_MIN_MAX() {
+        Node *p = head;
+        int Min = head->info, Max = head->info;
+        while (p != NULL) {
+            if (Min > p->info) Min = p->info;
+            if (Max < p->info) Max = p->info;
+            p = p->next;
+        }
+
+        cout << "Minimum number is: " << Min << '\n';
+        cout << "Maximum number is: " << Max << '\n';
+    }
+
+    void Sum_ODD_Even() {
+        Node *p = head;
+        int sum1 = 0, sum2 = 0;
+        while (p != NULL) {
+            if (p->info % 2) sum1 += p->info;
+            if (!(p->info % 2)) sum2 += p->info;
+            p = p->next;
+        }
+
+        cout << "Sum of odd numbers is: " << sum1 << '\n'
+             << "Sum of even numbers is: " << sum2 << '\n';
+    }
+
+    void Increase_by(int n) {
+        Node *p = head;
+        while (p != NULL) {
+            p->info += n;
+            p = p->next;
+        }
+
+        cout << "List after increasing " << n << " to all Nodes: ";
+        p = head;
+        while (p != NULL) {
+            cout << p->info << " ";
+            p = p->next;
+        }
+        cout << '\n';
+    }
+
+    void print_ODD_EVEN() {
+        Node *p = head;
+        vector<int> vec1, vec2;
+        while (p != NULL) {
+            if (p->info % 2) {
+                vec1.push_back(p->info);
+            }
+            if (!(p->info % 2)) {
+                vec2.push_back(p->info);
+            }
+            p = p->next;
+        }
+
+        cout << "Odd Numbers are: ";
+        for (auto &i: vec1) cout << i << " ";
+        cout << '\n';
+
+        cout << "Even Numbers are: ";
+        for (auto &i :vec2) cout << i << " ";
+        cout << '\n';
+    }
+
+    void Update(int ov, int nv) {
+        Node *p = head;
+        while (p != NULL and p->info != ov) {
+            p = p->next;
+        }
+        if (p->info == ov) p->info = nv;
+
+        cout << "List after updating: ";
+        p = head;
+        while (p != NULL) {
+            cout << p->info << " ";
+            p = p->next;
+        }
+        cout << '\n';
+    }
+};
+
+int main() {
+    LinkedList l;
+    l.insertFirst(1);
+    l.insertLast(2);
+    l.insertLast(4);
+    l.insertLast(5);
+    l.insertAtPos(2, 3);
+    l.printList();
+    l.print_ODD_EVEN();
+    l.Update(5, 6);
+    l.print_ODD_EVEN();
+    l.Increase_by(1);
+    cout<<l.countList()<<'\n';
+    cout<<l.FindNode(2) << '\n';
+    l.Get_MIN_MAX();
+    l.removeFist();
+    l.printList();
+    l.removeLast();
+    l.printList();
+    l.removeAtPos(1);
+    l.printList();
+
+
+    return 0;
+}
